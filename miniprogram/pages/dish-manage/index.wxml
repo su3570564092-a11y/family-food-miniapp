@@ -1,0 +1,200 @@
+<view class="page-container manage-page">
+  <!-- 顶部统计与新增栏 (粉色温馨风) -->
+  <view class="cozy-card top-stat-card">
+    <view class="stat-left">
+      <text class="stat-count">{{dishes.length}}</text>
+      <view class="stat-labels">
+        <text class="stat-title">已收录家常菜谱</text>
+        <text class="stat-subtitle">涵盖早、中、晚、汤品与夜宵</text>
+      </view>
+    </view>
+    <button class="btn-primary btn-add-dish" bindtap="openAddModal">
+      ➕ 新增菜谱
+    </button>
+  </view>
+
+  <!-- 餐别分类筛选 -->
+  <scroll-view class="category-tabs" scroll-x enable-flex show-scrollbar="{{false}}">
+    <view 
+      wx:for="{{categories}}" 
+      wx:key="key" 
+      class="cat-tab {{currentCat === item.key ? 'cat-tab-active' : ''}}"
+      bindtap="selectCategory" 
+      data-key="{{item.key}}"
+    >
+      <text class="cat-tab-icon">{{item.icon}}</text>
+      <text class="cat-tab-name">{{item.name}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 菜品列表 -->
+  <view class="dish-list">
+    <view 
+      wx:for="{{filteredDishes}}" 
+      wx:key="id" 
+      class="cozy-card manage-dish-card {{item.available === false ? 'dish-disabled' : ''}}"
+    >
+      <view class="dish-top-row">
+        <view class="dish-basic-left">
+          <text class="dish-icon-box">{{item.icon || '🍲'}}</text>
+          <view class="dish-title-group">
+            <view class="dish-name-line">
+              <text class="dish-manage-name">{{item.name}}</text>
+              <text class="tag-badge tag-cat">{{item.categoryName}}</text>
+            </view>
+            <text class="dish-manage-sub">⏱ {{item.cookingTime}} · 配料 {{item.ingredients.length}} 种 · 调料 {{item.seasonings.length}} 种 · 步骤 {{item.steps.length}} 步</text>
+          </view>
+        </view>
+
+        <!-- 启停状态开关 -->
+        <switch 
+          checked="{{item.available !== false}}" 
+          color="#FF4D7E" 
+          bindchange="toggleDishAvailability" 
+          data-id="{{item.id}}" 
+        />
+      </view>
+
+      <view class="dish-status-tip">
+        <text wx:if="{{item.available !== false}}" class="tip-active">● 状态正常，可点</text>
+        <text wx:else class="tip-inactive">○ 今日暂缺食材，暂不可点</text>
+      </view>
+
+      <!-- 操作按钮行 -->
+      <view class="manage-btn-row">
+        <button class="btn-tool" bindtap="openEditModal" data-dish="{{item}}">
+          ✏️ 编辑配料与步骤
+        </button>
+        <button class="btn-tool btn-preview" bindtap="previewDishDetail" data-id="{{item.id}}">
+          👁️ 预览做菜页
+        </button>
+        <button class="btn-tool btn-del" bindtap="confirmDeleteDish" data-id="{{item.id}}" data-name="{{item.name}}">
+          🗑️ 删除
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部重置默认菜谱按钮 -->
+  <view class="bottom-tools">
+    <button class="btn-reset" bindtap="confirmResetDefault">
+      🔄 恢复默认菜单菜谱
+    </button>
+  </view>
+
+  <!-- 新增/编辑菜品全能抽屉弹窗 -->
+  <view wx:if="{{showEditModal}}" class="edit-modal-mask" bindtap="closeEditModal">
+    <view class="edit-modal-content" catchtap="preventBubble">
+      <view class="edit-modal-header">
+        <text class="edit-modal-title">{{isEditing ? '编辑菜品与秘籍' : '新增自创菜品'}}</text>
+        <text class="edit-modal-close" bindtap="closeEditModal">✕</text>
+      </view>
+
+      <scroll-view class="edit-modal-scroll" scroll-y>
+        <!-- 基础信息 -->
+        <view class="form-section">
+          <text class="section-badge">1. 基础信息</text>
+          
+          <view class="form-row">
+            <text class="form-label">菜品名称：</text>
+            <input class="form-input" placeholder="例如：蜜汁红烧排骨" value="{{formData.name}}" bindinput="onInput" data-field="name" />
+          </view>
+
+          <view class="form-row">
+            <text class="form-label">菜品图标：</text>
+            <input class="form-input" placeholder="Emoji 如 🍲 🥩 🐟 🍗 🍜 🍤" value="{{formData.icon}}" bindinput="onInput" data-field="icon" />
+          </view>
+
+          <view class="form-row">
+            <text class="form-label">餐别分类：</text>
+            <picker mode="selector" range="{{categoryOptions}}" range-key="name" value="{{selectedCatIndex}}" bindchange="onCatPickerChange">
+              <view class="picker-value-box">
+                <text>{{formData.categoryName || '点击选择餐别'}}</text>
+                <text class="arrow">❯</text>
+              </view>
+            </picker>
+          </view>
+
+          <view class="form-row">
+            <text class="form-label">预计耗时：</text>
+            <input class="form-input" placeholder="例如：15分钟" value="{{formData.cookingTime}}" bindinput="onInput" data-field="cookingTime" />
+          </view>
+
+          <view class="form-row">
+            <text class="form-label">难度：</text>
+            <input class="form-input" placeholder="简单 / 中等" value="{{formData.difficulty}}" bindinput="onInput" data-field="difficulty" />
+          </view>
+
+          <view class="form-row">
+            <text class="form-label">简要介绍：</text>
+            <textarea class="form-textarea-sm" placeholder="一句话描述这道菜的特点与风味..." value="{{formData.description}}" bindinput="onInput" data-field="description"></textarea>
+          </view>
+        </view>
+
+        <!-- 配料清单编辑 -->
+        <view class="form-section">
+          <view class="section-title-flex">
+            <text class="section-badge">2. 所需食材与配料清单</text>
+            <text class="btn-sub-add" bindtap="addIngredientRow">➕ 加一行食材</text>
+          </view>
+
+          <view wx:for="{{formData.ingredients}}" wx:key="index" class="dynamic-row">
+            <input class="input-dynamic col-3" placeholder="食材名 (如排骨)" value="{{item.name}}" bindinput="onIngredientChange" data-index="{{index}}" data-field="name" />
+            <input class="input-dynamic col-2" placeholder="用量 (如300g)" value="{{item.amount}}" bindinput="onIngredientChange" data-index="{{index}}" data-field="amount" />
+            <input class="input-dynamic col-4" placeholder="备注 (焯水等)" value="{{item.note}}" bindinput="onIngredientChange" data-index="{{index}}" data-field="note" />
+            <text class="btn-row-del" bindtap="removeIngredientRow" data-index="{{index}}">✕</text>
+          </view>
+        </view>
+
+        <!-- 调味料编辑 -->
+        <view class="form-section">
+          <view class="section-title-flex">
+            <text class="section-badge">3. 调味料配比</text>
+            <text class="btn-sub-add" bindtap="addSeasoningRow">➕ 加一行调料</text>
+          </view>
+
+          <view wx:for="{{formData.seasonings}}" wx:key="index" class="dynamic-row">
+            <input class="input-dynamic col-3" placeholder="调料名 (如生抽)" value="{{item.name}}" bindinput="onSeasoningChange" data-index="{{index}}" data-field="name" />
+            <input class="input-dynamic col-2" placeholder="用量 (如2勺)" value="{{item.amount}}" bindinput="onSeasoningChange" data-index="{{index}}" data-field="amount" />
+            <input class="input-dynamic col-4" placeholder="备注 (提鲜/咸甜)" value="{{item.note}}" bindinput="onSeasoningChange" data-index="{{index}}" data-field="note" />
+            <text class="btn-row-del" bindtap="removeSeasoningRow" data-index="{{index}}">✕</text>
+          </view>
+        </view>
+
+        <!-- 做菜步骤编辑 -->
+        <view class="form-section">
+          <view class="section-title-flex">
+            <text class="section-badge">4. 烹饪详细步骤</text>
+            <text class="btn-sub-add" bindtap="addStepRow">➕ 加一步骤</text>
+          </view>
+
+          <view wx:for="{{formData.steps}}" wx:key="index" class="step-edit-box">
+            <view class="step-edit-header">
+              <text class="step-tag">步骤 {{index + 1}}</text>
+              <text class="btn-row-del" bindtap="removeStepRow" data-index="{{index}}">删除此步</text>
+            </view>
+            <input class="form-input mb-10" placeholder="步骤小标题 (例如：焯水去腥)" value="{{item.title}}" bindinput="onStepChange" data-index="{{index}}" data-field="title" />
+            <textarea class="form-textarea-sm mb-10" placeholder="详细操作描述..." value="{{item.desc}}" bindinput="onStepChange" data-index="{{index}}" data-field="desc"></textarea>
+            <input class="form-input mb-10" placeholder="关键技巧小贴士 (选填)" value="{{item.tips}}" bindinput="onStepChange" data-index="{{index}}" data-field="tips" />
+            <view class="form-row timer-row">
+              <text class="form-label">建议计时秒数：</text>
+              <input class="form-input" type="number" placeholder="如 300 (代表5分钟，0为不计时)" value="{{item.timerSeconds}}" bindinput="onStepChange" data-index="{{index}}" data-field="timerSeconds" />
+            </view>
+          </view>
+        </view>
+
+        <!-- 大厨烹饪心得 -->
+        <view class="form-section">
+          <text class="section-badge">5. 大厨烹饪心得与口感秘诀</text>
+          <textarea class="form-textarea-sm" placeholder="写下做这道菜的心得与口感要点..." value="{{formData.chefTips}}" bindinput="onInput" data-field="chefTips"></textarea>
+        </view>
+      </scroll-view>
+
+      <view class="edit-modal-footer">
+        <button class="btn-primary w-100" bindtap="saveDish">
+          保存菜谱并同步到点餐菜单
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

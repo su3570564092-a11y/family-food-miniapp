@@ -1,0 +1,449 @@
+.detail-page {
+  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+}
+
+.hero-header {
+  background: linear-gradient(180deg, #FFEBF0 0%, #FFF5F7 100%);
+  padding: 30rpx 28rpx 36rpx 28rpx;
+  border-bottom-left-radius: 40rpx;
+  border-bottom-right-radius: 40rpx;
+}
+
+.hero-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 0;
+}
+
+.hero-emoji {
+  font-size: 130rpx;
+  margin-bottom: 20rpx;
+  filter: drop-shadow(0 10rpx 16rpx rgba(255, 82, 123, 0.25));
+}
+
+.hero-meta-badges {
+  display: flex;
+  gap: 16rpx;
+}
+
+.meta-badge {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1rpx solid #FFD3DF;
+  color: #7A5B6E;
+  font-size: 22rpx;
+  font-weight: 500;
+  padding: 8rpx 18rpx;
+  border-radius: 30rpx;
+}
+
+.cat-badge {
+  background: #F5E8FF;
+  color: #9D4EDD;
+  border-color: #E4CCF7;
+}
+
+.hero-text-box {
+  margin-top: 24rpx;
+}
+
+.dish-main-title {
+  font-size: 42rpx;
+  font-weight: 800;
+  color: #351C2C;
+}
+
+.dish-tag-row {
+  margin: 14rpx 0;
+}
+
+.dish-desc-text {
+  font-size: 26rpx;
+  color: #7A5B6E;
+  line-height: 38rpx;
+  display: block;
+  font-style: italic;
+}
+
+/* 分段选项卡 */
+.tab-segment {
+  display: flex;
+  background: #FFFFFF;
+  margin: 24rpx;
+  border-radius: 32rpx;
+  padding: 10rpx;
+  box-shadow: 0 4rpx 16rpx rgba(255, 117, 151, 0.08);
+  border: 2rpx solid #FFE0E8;
+}
+
+.segment-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 0;
+  border-radius: 24rpx;
+  transition: all 0.2s ease;
+}
+
+.segment-active {
+  background: linear-gradient(135deg, #FF7597 0%, #FF4D7E 100%);
+  box-shadow: 0 6rpx 16rpx rgba(255, 77, 126, 0.3);
+}
+
+.tab-icon {
+  font-size: 30rpx;
+  margin-right: 12rpx;
+}
+
+.tab-text {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #6C4B5E;
+}
+
+.segment-active .tab-text {
+  color: #FFFFFF;
+}
+
+/* 区域容器 */
+.materials-section, .steps-section {
+  padding: 0 24rpx;
+}
+
+.section-card {
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+}
+
+.section-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #FFEBF0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.section-icon {
+  font-size: 36rpx;
+  margin-right: 12rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #351C2C;
+}
+
+.section-hint {
+  font-size: 22rpx;
+  color: #B392A7;
+}
+
+/* 配料清单 */
+.ingredient-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredient-item {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 16rpx;
+  border-radius: 18rpx;
+  margin-bottom: 12rpx;
+  background: #FFF9FA;
+  border: 1rpx solid #FFE4EC;
+  transition: all 0.15s;
+}
+
+.ingredient-checked {
+  background: #F8F0F3;
+  opacity: 0.6;
+}
+
+.ingredient-checked .ingredient-name,
+.ingredient-checked .ingredient-amount {
+  text-decoration: line-through;
+}
+
+.check-box {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #FFCCD8;
+}
+
+.ingredient-checked .check-box {
+  background: #FF4D7E;
+  border-color: #FF4D7E;
+}
+
+.check-icon {
+  font-size: 26rpx;
+  color: #FF85A1;
+}
+
+.ingredient-checked .check-icon {
+  color: #FFF;
+}
+
+.ingredient-info {
+  flex: 1;
+}
+
+.ingredient-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #351C2C;
+}
+
+.ingredient-note {
+  font-size: 22rpx;
+  color: #8C6A7B;
+  margin-left: 8rpx;
+}
+
+.ingredient-amount {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #FF4D7E;
+}
+
+/* 调味料清单 */
+.seasoning-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.seasoning-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 12rpx;
+  border-bottom: 1rpx dashed #FFE0E8;
+}
+
+.seasoning-left {
+  display: flex;
+  align-items: center;
+}
+
+.seasoning-bullet {
+  color: #9D4EDD;
+  font-size: 20rpx;
+  margin-right: 14rpx;
+}
+
+.seasoning-name {
+  font-size: 28rpx;
+  color: #351C2C;
+  font-weight: 500;
+}
+
+.seasoning-right {
+  display: flex;
+  align-items: center;
+}
+
+.seasoning-amount {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FF4D7E;
+}
+
+.seasoning-note {
+  font-size: 22rpx;
+  color: #B392A7;
+  margin-left: 10rpx;
+}
+
+/* 做菜步骤卡片 */
+.step-card {
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+}
+
+.step-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.step-number-badge {
+  background: linear-gradient(135deg, #FF7597 0%, #FF4D7E 100%);
+  color: #FFFFFF;
+  font-size: 24rpx;
+  font-weight: bold;
+  padding: 8rpx 18rpx;
+  border-radius: 20rpx;
+  margin-right: 16rpx;
+}
+
+.step-title-text {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #351C2C;
+}
+
+.step-description {
+  font-size: 28rpx;
+  color: #4A3342;
+  line-height: 44rpx;
+  display: block;
+}
+
+.step-tip-box {
+  background: #FFF5F8;
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  margin-top: 18rpx;
+  border-left: 6rpx solid #FF4D7E;
+}
+
+.tip-icon {
+  font-size: 24rpx;
+  color: #FF4D7E;
+  font-weight: bold;
+}
+
+.tip-text {
+  font-size: 24rpx;
+  color: #6C4B5E;
+  line-height: 36rpx;
+}
+
+.step-timer-box {
+  background: #FFF0F4;
+  border-radius: 20rpx;
+  padding: 16rpx 24rpx;
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timer-display {
+  display: flex;
+  align-items: center;
+}
+
+.timer-icon {
+  font-size: 32rpx;
+  margin-right: 10rpx;
+}
+
+.timer-label {
+  font-size: 24rpx;
+  color: #7A5B6E;
+}
+
+.timer-time {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #FF4D7E;
+  margin-left: 8rpx;
+}
+
+.timer-btn {
+  background: #FFFFFF;
+  border: 1rpx solid #FFCCD8;
+  color: #FF4D7E;
+  font-size: 24rpx;
+  padding: 10rpx 24rpx;
+  border-radius: 30rpx;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.timer-btn-active {
+  background: #FF4D7E;
+  color: #FFFFFF;
+  border-color: #FF4D7E;
+}
+
+.chef-tips-card {
+  background: linear-gradient(135deg, #FFF5F9 0%, #FDF0F6 100%);
+  border: 2rpx dashed #FFCCD8;
+}
+
+.chef-tips-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.chef-tips-icon {
+  font-size: 40rpx;
+  margin-right: 12rpx;
+}
+
+.chef-tips-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #FF4D7E;
+}
+
+.chef-tips-content {
+  font-size: 26rpx;
+  color: #6C4B5E;
+  line-height: 40rpx;
+}
+
+/* 底部固定操作栏 */
+.detail-bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-top: 2rpx solid #FFE0E8;
+  padding: 16rpx 24rpx calc(16rpx + env(safe-area-inset-bottom)) 24rpx;
+  box-shadow: 0 -6rpx 20rpx rgba(255, 77, 126, 0.08);
+  z-index: 100;
+}
+
+.bottom-device-hint {
+  font-size: 20rpx;
+  color: #B392A7;
+  text-align: center;
+  margin-bottom: 12rpx;
+}
+
+.bottom-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.btn-share-dish {
+  background: #FFEBF0;
+  color: #FF4D7E;
+  font-size: 28rpx;
+  font-weight: 600;
+  border-radius: 40rpx;
+  padding: 18rpx 28rpx;
+  border: 1rpx solid #FFCCD8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.add-cart-btn {
+  flex: 1;
+  margin: 0;
+}

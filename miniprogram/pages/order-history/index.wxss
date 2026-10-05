@@ -1,0 +1,173 @@
+.track-page {
+  padding: 24rpx;
+}
+
+.track-header {
+  padding: 10rpx 4rpx 20rpx 4rpx;
+}
+
+.track-title {
+  font-size: 36rpx;
+  font-weight: 800;
+  color: #3D2231;
+  display: block;
+}
+
+.track-sub {
+  font-size: 24rpx;
+  color: #8C6A7B;
+  margin-top: 6rpx;
+  display: block;
+}
+
+.order-track-card {
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+}
+
+.order-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #FFEBF0;
+}
+
+.top-info {
+  display: flex;
+  align-items: center;
+}
+
+.meal-tag {
+  background: #FFE8EF;
+  color: #FF4D7E;
+  font-size: 22rpx;
+  font-weight: 700;
+  padding: 4rpx 14rpx;
+  border-radius: 12rpx;
+  margin-right: 12rpx;
+}
+
+.order-time {
+  font-size: 22rpx;
+  color: #BFA0B3;
+}
+
+.status-badge {
+  font-size: 22rpx;
+  font-weight: bold;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.status-pending { background: #FFEBF0; color: #FF4D7E; border: 1rpx solid #FFCCD8; }
+.status-preparing { background: #FFF3E0; color: #FB8C00; }
+.status-cooking { background: #FCE4EC; color: #D81B60; }
+.status-served { background: #E8F5E9; color: #43A047; }
+.status-done { background: #F5F5F5; color: #9E9E9E; }
+
+/* 进度条 */
+.progress-steps-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 10rpx;
+}
+
+.step-point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.4;
+  transition: all 0.2s;
+}
+
+.point-active {
+  opacity: 1;
+}
+
+.point-icon {
+  font-size: 34rpx;
+}
+
+.point-text {
+  font-size: 20rpx;
+  font-weight: 600;
+  color: #3D2231;
+  margin-top: 6rpx;
+}
+
+.point-active .point-text {
+  color: #FF4D7E;
+}
+
+.step-line {
+  flex: 1;
+  height: 4rpx;
+  background: #FFE4EC;
+  margin: 0 10rpx;
+  margin-bottom: 24rpx;
+}
+
+.line-active {
+  background: #FF4D7E;
+}
+
+/* 菜品药丸标签 */
+.dish-chips-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  padding: 16rpx 0;
+  border-top: 1rpx dashed #FFE0E8;
+}
+
+.dish-chip {
+  display: flex;
+  align-items: center;
+  background: #FFF5F8;
+  border: 1rpx solid #FFCCD8;
+  border-radius: 20rpx;
+  padding: 8rpx 16rpx;
+}
+
+.dish-chip-emoji {
+  font-size: 28rpx;
+  margin-right: 8rpx;
+}
+
+.dish-chip-name {
+  font-size: 24rpx;
+  color: #3D2231;
+  font-weight: 600;
+}
+
+.dish-chip-count {
+  font-size: 22rpx;
+  color: #FF4D7E;
+  font-weight: bold;
+  margin-left: 8rpx;
+}
+
+/* 提示文字 */
+.chef-status-hint {
+  background: #FFF0F4;
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  margin-top: 10rpx;
+}
+
+.hint-text {
+  font-size: 24rpx;
+  color: #7A5B6E;
+  display: block;
+}
+
+.hint-served {
+  color: #43A047;
+  font-weight: 700;
+}
+
+.mt-20 {
+  margin-top: 20rpx;
+}

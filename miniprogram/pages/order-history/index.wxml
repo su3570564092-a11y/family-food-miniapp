@@ -1,0 +1,78 @@
+<view class="page-container track-page">
+  <view class="track-header">
+    <text class="track-title">🐾 臭乐乐的点餐进度 💖</text>
+    <text class="track-sub">实时查看做饭进度，美味马上就来~</text>
+  </view>
+
+  <view wx:if="{{orders.length === 0}}" class="empty-box">
+    <text class="empty-icon">🥣</text>
+    <text class="empty-text">今天还没有点餐哦</text>
+    <text class="empty-subtext">去菜单挑选想吃的菜品吧！</text>
+    <button class="btn-primary mt-20" bindtap="goToMenu">去挑选点餐</button>
+  </view>
+
+  <view wx:else class="orders-list">
+    <view wx:for="{{orders}}" wx:key="id" class="cozy-card order-track-card">
+      <view class="order-card-top">
+        <view class="top-info">
+          <text class="meal-tag">{{item.mealTypeLabel}}</text>
+          <text class="order-time">{{item.createTimeStr}}</text>
+        </view>
+        <view class="status-badge status-{{item.status}}">
+          {{item.statusText}}
+        </view>
+      </view>
+
+      <!-- 可爱的步骤进度指示条 -->
+      <view class="progress-steps-row">
+        <view class="step-point {{item.status === 'pending' || item.status === 'preparing' || item.status === 'cooking' || item.status === 'served' || item.status === 'done' ? 'point-active' : ''}}">
+          <text class="point-icon">💌</text>
+          <text class="point-text">已点单</text>
+        </view>
+        <view class="step-line {{item.status === 'preparing' || item.status === 'cooking' || item.status === 'served' || item.status === 'done' ? 'line-active' : ''}}"></view>
+        <view class="step-point {{item.status === 'preparing' || item.status === 'cooking' || item.status === 'served' || item.status === 'done' ? 'point-active' : ''}}">
+          <text class="point-icon">🥦</text>
+          <text class="point-text">备料中</text>
+        </view>
+        <view class="step-line {{item.status === 'cooking' || item.status === 'served' || item.status === 'done' ? 'line-active' : ''}}"></view>
+        <view class="step-point {{item.status === 'cooking' || item.status === 'served' || item.status === 'done' ? 'point-active' : ''}}">
+          <text class="point-icon">🔥</text>
+          <text class="point-text">热炒中</text>
+        </view>
+        <view class="step-line {{item.status === 'served' || item.status === 'done' ? 'line-active' : ''}}"></view>
+        <view class="step-point {{item.status === 'served' || item.status === 'done' ? 'point-active' : ''}}">
+          <text class="point-icon">🔔</text>
+          <text class="point-text">端上桌</text>
+        </view>
+      </view>
+
+      <!-- 菜品列表 -->
+      <view class="dish-chips-box">
+        <view wx:for="{{item.dishes}}" wx:for-item="d" wx:key="id" class="dish-chip">
+          <text class="dish-chip-emoji">{{d.icon || '🍲'}}</text>
+          <text class="dish-chip-name">{{d.name}}</text>
+          <text class="dish-chip-count">×{{d.count}}</text>
+        </view>
+      </view>
+
+      <!-- 做饭状态温馨提示语 -->
+      <view class="chef-status-hint">
+        <block wx:if="{{item.status === 'pending'}}">
+          <text class="hint-text">⏳ 订单已收到，大厨正在准备接单~</text>
+        </block>
+        <block wx:elif="{{item.status === 'preparing'}}">
+          <text class="hint-text">🥦 正在厨房清洗切配食材中！</text>
+        </block>
+        <block wx:elif="{{item.status === 'cooking'}}">
+          <text class="hint-text">🔥 厨房热气腾腾，大厨正在精心烹饪中！</text>
+        </block>
+        <block wx:elif="{{item.status === 'served'}}">
+          <text class="hint-text hint-served">🎉 香喷喷的美味端上餐桌啦，快来开饭！</text>
+        </block>
+        <block wx:else>
+          <text class="hint-text">✨ 本次用餐圆满结束，臭乐乐吃得开心~💖</text>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>

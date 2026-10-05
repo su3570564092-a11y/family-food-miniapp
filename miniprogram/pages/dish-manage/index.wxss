@@ -1,0 +1,403 @@
+.manage-page {
+  padding: 24rpx;
+}
+
+.top-stat-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #FFF6F2 0%, #FFFFFF 100%);
+  border: 1rpx solid #FCDDCF;
+  padding: 28rpx;
+}
+
+.stat-left {
+  display: flex;
+  align-items: center;
+}
+
+.stat-count {
+  font-size: 56rpx;
+  font-weight: 900;
+  color: #FA6432;
+  margin-right: 18rpx;
+}
+
+.stat-labels {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #2C2725;
+}
+
+.stat-subtitle {
+  font-size: 22rpx;
+  color: #8C807A;
+  margin-top: 4rpx;
+}
+
+.btn-add-dish {
+  font-size: 26rpx;
+  padding: 16rpx 28rpx;
+  margin: 0;
+  border-radius: 36rpx;
+}
+
+/* 分类标签 */
+.category-tabs {
+  white-space: nowrap;
+  display: flex;
+  margin-bottom: 24rpx;
+}
+
+.cat-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 14rpx 24rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  border: 1rpx solid #F0E6DE;
+  margin-right: 14rpx;
+  flex-shrink: 0;
+}
+
+.cat-tab-icon {
+  font-size: 28rpx;
+  margin-right: 8rpx;
+}
+
+.cat-tab-name {
+  font-size: 26rpx;
+  color: #665E5A;
+}
+
+.cat-tab-active {
+  background: #FA6432;
+  border-color: #FA6432;
+}
+
+.cat-tab-active .cat-tab-name {
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+/* 菜品管理卡片 */
+.manage-dish-card {
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.dish-disabled {
+  opacity: 0.65;
+  background: #FDFBF9;
+}
+
+.dish-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dish-basic-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.dish-icon-box {
+  font-size: 52rpx;
+  margin-right: 18rpx;
+}
+
+.dish-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.dish-name-line {
+  display: flex;
+  align-items: center;
+}
+
+.dish-manage-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #2C2725;
+  margin-right: 12rpx;
+}
+
+.dish-manage-sub {
+  font-size: 20rpx;
+  color: #8C807A;
+  margin-top: 6rpx;
+}
+
+.dish-status-tip {
+  font-size: 22rpx;
+  margin: 12rpx 0;
+}
+
+.tip-active {
+  color: #4CAF50;
+  font-weight: 500;
+}
+
+.tip-inactive {
+  color: #E53935;
+  font-weight: 500;
+}
+
+.manage-btn-row {
+  display: flex;
+  gap: 12rpx;
+  padding-top: 14rpx;
+  border-top: 1rpx dashed #F2E8E1;
+}
+
+.btn-tool {
+  flex: 1;
+  background: #FFF4EE;
+  color: #FA6432;
+  font-size: 22rpx;
+  font-weight: 600;
+  padding: 12rpx 0;
+  border-radius: 20rpx;
+  margin: 0;
+  line-height: 1.4;
+  border: 1rpx solid #FCD4BE;
+}
+
+.btn-preview {
+  background: #F3F0EC;
+  color: #615854;
+  border-color: #E5DDD5;
+}
+
+.btn-del {
+  flex: 0.6;
+  background: #FFEBEE;
+  color: #E53935;
+  border-color: #FFCDD2;
+}
+
+/* 底部工具条 */
+.bottom-tools {
+  margin: 30rpx 0 60rpx 0;
+}
+
+.btn-reset {
+  background: #F0EAE4;
+  color: #7D736F;
+  font-size: 24rpx;
+  border-radius: 30rpx;
+  padding: 16rpx 0;
+  text-align: center;
+}
+
+/* 编辑抽屉全屏模态 */
+.edit-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+}
+
+.edit-modal-content {
+  background: #FFFFFF;
+  width: 100%;
+  max-height: 90vh;
+  border-top-left-radius: 40rpx;
+  border-top-right-radius: 40rpx;
+  padding: 32rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #F0E6DE;
+}
+
+.edit-modal-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #2C2725;
+}
+
+.edit-modal-close {
+  font-size: 36rpx;
+  color: #999;
+  padding: 10rpx;
+}
+
+.edit-modal-scroll {
+  flex: 1;
+  max-height: 70vh;
+  padding: 20rpx 0;
+}
+
+.form-section {
+  background: #FCFAF8;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  margin-bottom: 24rpx;
+  border: 1rpx solid #F2E8E1;
+}
+
+.section-badge {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #FA6432;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.section-title-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.btn-sub-add {
+  font-size: 24rpx;
+  color: #FA6432;
+  font-weight: 600;
+  background: #FFF2EC;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.form-row {
+  margin-bottom: 16rpx;
+}
+
+.form-label {
+  font-size: 24rpx;
+  color: #554D49;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.form-input {
+  background: #FFFFFF;
+  border: 1rpx solid #EAE0D8;
+  border-radius: 14rpx;
+  padding: 16rpx 20rpx;
+  font-size: 26rpx;
+  color: #333;
+}
+
+.form-textarea-sm {
+  width: 100%;
+  height: 120rpx;
+  background: #FFFFFF;
+  border: 1rpx solid #EAE0D8;
+  border-radius: 14rpx;
+  padding: 14rpx 18rpx;
+  font-size: 26rpx;
+  color: #333;
+}
+
+.picker-value-box {
+  background: #FFFFFF;
+  border: 1rpx solid #EAE0D8;
+  border-radius: 14rpx;
+  padding: 16rpx 20rpx;
+  font-size: 26rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.arrow {
+  color: #999;
+  font-size: 24rpx;
+}
+
+.dynamic-row {
+  display: flex;
+  gap: 8rpx;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.input-dynamic {
+  background: #FFFFFF;
+  border: 1rpx solid #EAE0D8;
+  border-radius: 12rpx;
+  padding: 12rpx 14rpx;
+  font-size: 24rpx;
+}
+
+.col-3 { flex: 3; }
+.col-2 { flex: 2; }
+.col-4 { flex: 4; }
+
+.btn-row-del {
+  color: #E53935;
+  font-size: 28rpx;
+  padding: 6rpx 12rpx;
+}
+
+.step-edit-box {
+  background: #FFFFFF;
+  border: 1rpx solid #EAE0D8;
+  border-radius: 16rpx;
+  padding: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.step-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.step-tag {
+  font-size: 22rpx;
+  font-weight: bold;
+  color: #FA6432;
+  background: #FFF2EC;
+  padding: 4rpx 12rpx;
+  border-radius: 10rpx;
+}
+
+.timer-row {
+  display: flex;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+.timer-row .form-label {
+  margin-bottom: 0;
+  margin-right: 10rpx;
+  white-space: nowrap;
+}
+
+.mb-10 {
+  margin-bottom: 10rpx;
+}
+
+.edit-modal-footer {
+  padding-top: 20rpx;
+  border-top: 1rpx solid #F0E6DE;
+}
+
+.w-100 {
+  width: 100%;
+}

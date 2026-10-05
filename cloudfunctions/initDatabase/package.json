@@ -1,0 +1,9 @@
+{
+  "name": "initDatabase",
+  "version": "1.0.0",
+  "description": "家庭点餐小程序云数据库自动初始化",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

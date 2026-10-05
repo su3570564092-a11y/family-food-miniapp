@@ -1,0 +1,370 @@
+<view class="page-container chef-page">
+  <!-- 掌勺控制台顶部 -->
+  <view class="chef-top-bar">
+    <view class="chef-title-group">
+      <view class="chef-badge">👨‍🍳 掌勺大厨</view>
+      <text class="chef-main-title">臭乐乐点餐·做饭接单台 💖</text>
+    </view>
+    <view class="chef-status-pill">
+      <view class="live-dot"></view>
+      <text class="live-text">待命随时开火</text>
+    </view>
+  </view>
+
+  <!-- 状态快捷筛选横条 -->
+  <scroll-view class="status-tabs" scroll-x enable-flex show-scrollbar="{{false}}">
+    <view 
+      wx:for="{{statusFilters}}" 
+      wx:key="key" 
+      class="status-tab-item {{currentFilter === item.key ? 'tab-active' : ''}}"
+      bindtap="switchFilter"
+      data-key="{{item.key}}"
+    >
+      <text class="status-tab-name">{{item.label}}</text>
+      <text wx:if="{{statusCounts[item.key] > 0}}" class="status-count-badge">
+        {{statusCounts[item.key]}}
+      </text>
+    </view>
+  </scroll-view>
+
+  <!-- 订单列表 -->
+  <view class="orders-container">
+    <view wx:if="{{filteredOrders.length === 0}}" class="empty-box">
+      <text class="empty-icon">🐱</text>
+      <text class="empty-text">当前暂无此状态订单</text>
+      <text class="empty-subtext">臭乐乐一下单，手机将立刻收到提醒~</text>
+    </view>
+
+    <!-- 订单卡片 -->
+    <view 
+      wx:for="{{filteredOrders}}" 
+      wx:key="id" 
+      class="cozy-card order-card"
+    >
+      <!-- 订单头部: 突出臭乐乐身份与设备 -->
+      <view class="order-header">
+        <view class="family-device-badge">
+          <text class="member-avatar">{{item.deviceInfo.avatar || '🐱'}}</text>
+          <view class="member-detail">
+            <view class="member-name-row">
+              <text class="member-name">{{item.deviceInfo.nickname || '臭乐乐'}}</text>
+              <text class="meal-session-tag">{{item.mealTypeLabel || '午餐'}}</text>
+            </view>
+            <text class="device-tag-name">📱 {{item.deviceInfo.deviceAlias || item.deviceInfo.deviceModel}}</text>
+          </view>
+        </view>
+
+        <!-- 订单状态徽章 -->
+        <view class="status-chip status-{{item.status}}">
+          {{item.statusText || '待接单'}}
+        </view>
+      </view>
+
+      <!-- 时间与期望说明 -->
+      <view class="order-time-info">
+        <text class="time-item">🕒 下单时间：{{item.createTimeStr}}</text>
+        <text class="time-item highlight-time">⏰ 期望用餐：{{item.expectedTime}}</text>
+      </view>
+
+      <!-- 口味偏好与备注 -->
+      <view wx:if="{{(item.tasteTags && item.tasteTags.length > 0) || item.customRemark}}" class="order-remark-box">
+        <view wx:if="{{item.tasteTags && item.tasteTags.length > 0}}" class="remark-tags">
+          <text wx:for="{{item.tasteTags}}" wx:for-item="tag" wx:key="*this" class="tag-badge tag-pink">{{tag}}</text>
+        </view>
+        <text wx:if="{{item.customRemark}}" class="custom-note-text">
+          💌 臭乐乐叮嘱：“{{item.customRemark}}”
+        </text>
+      </view>
+
+      <!-- 菜品列表（附带【查看配料与步骤】按钮） -->
+      <view class="order-dishes-section">
+        <view class="section-label">点单美味：</view>
+        <view 
+          wx:for="{{item.dishes}}" 
+          wx:for-item="dish" 
+          wx:key="id" 
+          class="dish-item-row"
+        >
+          <view class="dish-name-and-count">
+            <text class="dish-item-icon">{{dish.icon || '🍲'}}</text>
+            <text class="dish-item-name">{{dish.name}}</text>
+            <text class="dish-item-count">× {{dish.count}}</text>
+          </view>
+
+          <!-- 核心功能: 大厨点击查看该菜品的配料调料与详细步骤 -->
+          <view 
+            class="btn-view-recipe-quick" 
+            bindtap="openRecipeDrawer" 
+            data-dish="{{dish}}"
+          >
+            <text class="book-icon">📖</text>
+            <text>看配料与步骤</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 大厨实用工具：买菜汇总与做菜时序 -->
+      <view class="order-tools-row">
+        <button class="btn-chef-tool btn-tool-grocery" catchtap="openGroceryModal" data-order="{{item}}">
+          🛒 查看要买的菜 (采购汇总)
+        </button>
+        <button class="btn-chef-tool btn-tool-plan" catchtap="openCookingPlan" data-order="{{item}}">
+          👨‍🍳 最佳做菜顺序指南
+        </button>
+      </view>
+
+      <!-- 订单底部操作栏 -->
+      <view class="order-actions-bar">
+        <view class="total-dishes-text">
+          共 {{item.dishes.length}} 道菜品
+        </view>
+
+        <!-- 状态流转操作按钮 -->
+        <view class="status-buttons">
+          <block wx:if="{{item.status === 'pending'}}">
+            <button 
+              class="btn-primary btn-action" 
+              bindtap="handleStatusAdvance" 
+              data-id="{{item.id}}" 
+              data-next="preparing"
+            >
+              👩‍🍳 收到臭乐乐点餐·开始备菜
+            </button>
+          </block>
+
+          <block wx:elif="{{item.status === 'preparing'}}">
+            <button 
+              class="btn-primary btn-action btn-cooking" 
+              bindtap="handleStatusAdvance" 
+              data-id="{{item.id}}" 
+              data-next="cooking"
+            >
+              🔥 开始做菜
+            </button>
+          </block>
+
+          <block wx:elif="{{item.status === 'cooking'}}">
+            <button 
+              class="btn-primary btn-action btn-served" 
+              bindtap="handleStatusAdvance" 
+              data-id="{{item.id}}" 
+              data-next="served"
+            >
+              🔔 做好端上桌·开饭啦！
+            </button>
+          </block>
+
+          <block wx:elif="{{item.status === 'served'}}">
+            <button 
+              class="btn-secondary btn-action" 
+              bindtap="handleStatusAdvance" 
+              data-id="{{item.id}}" 
+              data-next="done"
+            >
+              💖 用餐圆满完成
+            </button>
+          </block>
+
+          <block wx:else>
+            <text class="done-tag">✨ 臭乐乐用餐愉快</text>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 厨房快速看菜谱抽屉 (直接在厨房看配料、调料、步骤) -->
+  <view wx:if="{{activeRecipeDish}}" class="recipe-drawer-mask" bindtap="closeRecipeDrawer">
+    <view class="recipe-drawer-content" catchtap="preventBubble">
+      <view class="drawer-header">
+        <view class="drawer-dish-title">
+          <text class="drawer-dish-emoji">{{activeRecipeDish.icon || '🍲'}}</text>
+          <text class="drawer-dish-name">{{activeRecipeDish.name}}</text>
+        </view>
+        <text class="drawer-close-btn" bindtap="closeRecipeDrawer">✕</text>
+      </view>
+
+      <scroll-view class="drawer-scroll" scroll-y>
+        <!-- 配料清单 -->
+        <view class="drawer-block">
+          <view class="block-title-row">
+            <text class="block-title">🥦 所需食材 / 配料</text>
+          </view>
+          <view class="drawer-material-grid">
+            <view wx:for="{{activeRecipeDish.ingredients}}" wx:key="name" class="drawer-mat-chip">
+              <text class="mat-name">{{item.name}}</text>
+              <text class="mat-amount">{{item.amount}}</text>
+              <text wx:if="{{item.note}}" class="mat-note">{{item.note}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 调料清单 -->
+        <view class="drawer-block">
+          <view class="block-title-row">
+            <text class="block-title">🧂 精准调味料配比</text>
+          </view>
+          <view class="drawer-seasoning-list">
+            <view wx:for="{{activeRecipeDish.seasonings}}" wx:key="name" class="drawer-seasoning-item">
+              <text class="seasoning-name-text">● {{item.name}}</text>
+              <text class="seasoning-amount-text">{{item.amount}}</text>
+              <text wx:if="{{item.note}}" class="seasoning-note-text">({{item.note}})</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 做菜步骤 -->
+        <view class="drawer-block">
+          <view class="block-title-row">
+            <text class="block-title">🍳 详细制作步骤</text>
+          </view>
+          <view 
+            wx:for="{{activeRecipeDish.steps}}" 
+            wx:key="step" 
+            class="drawer-step-item"
+          >
+            <view class="drawer-step-title">
+              <text class="step-num-pill">第 {{item.step}} 步</text>
+              <text class="step-subname">{{item.title}}</text>
+            </view>
+            <text class="drawer-step-desc">{{item.desc}}</text>
+            <view wx:if="{{item.tips}}" class="drawer-step-tip">
+              💡 关键秘诀: {{item.tips}}
+            </view>
+          </view>
+        </view>
+
+        <!-- 大厨心得 -->
+        <view wx:if="{{activeRecipeDish.chefTips}}" class="drawer-tips-box">
+          <text class="tips-badge">👨‍🍳 大厨做菜心得</text>
+          <text class="tips-text">{{activeRecipeDish.chefTips}}</text>
+        </view>
+      </scroll-view>
+
+      <view class="drawer-footer">
+        <button class="btn-primary w-100" bindtap="closeRecipeDrawer">
+          配方已记牢，去掌勺做菜！
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 🛒 买菜采购清单弹窗 (总量合并) -->
+  <view wx:if="{{showGroceryModal}}" class="recipe-drawer-mask" bindtap="closeGroceryModal">
+    <view class="recipe-drawer-content grocery-drawer" catchtap="preventBubble">
+      <view class="drawer-header">
+        <view class="drawer-dish-title">
+          <text class="drawer-dish-emoji">🛒</text>
+          <text class="drawer-dish-name">采购清单 (要买的菜已合并)</text>
+        </view>
+        <text class="drawer-close-btn" bindtap="closeGroceryModal">✕</text>
+      </view>
+
+      <scroll-view class="drawer-scroll" scroll-y>
+        <view class="grocery-summary-tip">
+          <text class="summary-tip-title">📋 本单买菜备忘：</text>
+          <text class="summary-tip-text">已为您自动合并所有菜品食材总量。买好一样点击即可打勾划线，出门买菜超省心！</text>
+        </view>
+
+        <!-- 需采购食材列表 -->
+        <view class="drawer-block">
+          <view class="block-title-row">
+            <text class="block-title">🥬 需采购生鲜食材 (共 {{groceryIngredients.length}} 项)</text>
+          </view>
+          <view class="grocery-list">
+            <view 
+              wx:for="{{groceryIngredients}}" 
+              wx:key="name" 
+              class="grocery-item {{item.checked ? 'grocery-item-done' : ''}}"
+              bindtap="toggleGroceryItem"
+              data-index="{{index}}"
+            >
+              <view class="grocery-check-box">
+                <text class="check-icon">{{item.checked ? '✓' : '○'}}</text>
+              </view>
+              <view class="grocery-item-info">
+                <view class="grocery-item-main">
+                  <text class="grocery-item-name">{{item.name}}</text>
+                  <text class="grocery-item-amount">{{item.amountStr}}</text>
+                </view>
+                <text class="grocery-item-sources">用于：{{item.sourceStr}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 厨房调料库存检查 -->
+        <view wx:if="{{grocerySeasonings.length > 0}}" class="drawer-block">
+          <view class="block-title-row">
+            <text class="block-title">🧂 烹饪所需调料 (请检查厨房存量)</text>
+          </view>
+          <view class="seasoning-chips-grid">
+            <view wx:for="{{grocerySeasonings}}" wx:key="name" class="seasoning-chip-item">
+              <text class="chip-name">{{item.name}}</text>
+              <text class="chip-amount">{{item.amountStr}}</text>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+
+      <view class="drawer-footer grocery-footer">
+        <button class="btn-secondary btn-copy" bindtap="copyGroceryList">
+          📋 一键复制买菜清单文本
+        </button>
+        <button class="btn-primary btn-close" bindtap="closeGroceryModal">
+          记好了，去买菜！
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 👨‍🍳 最佳做菜顺序指南弹窗 -->
+  <view wx:if="{{showPlanModal}}" class="recipe-drawer-mask" bindtap="closePlanModal">
+    <view class="recipe-drawer-content plan-drawer" catchtap="preventBubble">
+      <view class="drawer-header">
+        <view class="drawer-dish-title">
+          <text class="drawer-dish-emoji">👨‍🍳</text>
+          <text class="drawer-dish-name">最佳做菜顺序规划</text>
+        </view>
+        <text class="drawer-close-btn" bindtap="closePlanModal">✕</text>
+      </view>
+
+      <scroll-view class="drawer-scroll" scroll-y>
+        <view class="plan-hero-tip">
+          <text class="plan-hero-title">💡 大厨科学做菜秘籍：</text>
+          <text class="plan-hero-desc">按此科学时序开火，慢煲汤在后台静静出味，热炒菜在开饭前最后5分钟大火爆炒，保证所有菜品热气腾腾同时端上餐桌！</text>
+        </view>
+
+        <view class="plan-steps-timeline">
+          <view 
+            wx:for="{{cookingPlanSteps}}" 
+            wx:key="num" 
+            class="plan-step-card"
+          >
+            <view class="plan-step-header">
+              <text class="plan-num-badge">步骤 {{item.num}}</text>
+              <text class="plan-phase-tag" style="background: {{item.badgeColor}}15; color: {{item.badgeColor}};">{{item.badge}}</text>
+              <text class="plan-time-tag">⏱ {{item.timeEstimate}}</text>
+            </view>
+            <text class="plan-step-title-text">{{item.title}}</text>
+            <text class="plan-step-desc-text">{{item.desc}}</text>
+
+            <view wx:if="{{item.dishes && item.dishes.length > 0}}" class="plan-dishes-chips">
+              <view wx:for="{{item.dishes}}" wx:for-item="d" wx:key="id" class="plan-dish-chip">
+                <text class="chip-emoji">{{d.icon || '🍲'}}</text>
+                <text class="chip-title">{{d.name}}</text>
+                <text class="chip-time">({{d.cookingTime}})</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+
+      <view class="drawer-footer">
+        <button class="btn-primary w-100" bindtap="closePlanModal">
+          时序已掌握，开火做大餐！
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,167 @@
+<view class="page-container detail-page" wx:if="{{dish}}">
+  <!-- 头部视觉大卡片 (臭乐乐专属·粉色温馨风) -->
+  <view class="hero-header">
+    <view class="hero-visual">
+      <text class="hero-emoji">{{dish.icon || '🍲'}}</text>
+      <view class="hero-meta-badges">
+        <text class="meta-badge">⏱ 预计耗时 {{dish.cookingTime}}</text>
+        <text class="meta-badge">🔥 难度: {{dish.difficulty || '简单'}}</text>
+        <text class="meta-badge cat-badge">{{dish.categoryName}}</text>
+      </view>
+    </view>
+
+    <view class="hero-text-box">
+      <view class="dish-title-row">
+        <text class="dish-main-title">{{dish.name}}</text>
+      </view>
+      <view class="dish-tag-row">
+        <text wx:for="{{dish.tags}}" wx:key="*this" class="tag-badge tag-pink">{{item}}</text>
+      </view>
+      <text class="dish-desc-text">“{{dish.description}}”</text>
+    </view>
+  </view>
+
+  <!-- 选项卡切换: 【配料与调料】 / 【详细做菜步骤】 -->
+  <view class="tab-segment">
+    <view 
+      class="segment-item {{activeTab === 'materials' ? 'segment-active' : ''}}"
+      bindtap="switchTab" 
+      data-tab="materials"
+    >
+      <text class="tab-icon">🥩</text>
+      <text class="tab-text">主配料与调料清单</text>
+    </view>
+    <view 
+      class="segment-item {{activeTab === 'steps' ? 'segment-active' : ''}}"
+      bindtap="switchTab" 
+      data-tab="steps"
+    >
+      <text class="tab-icon">🍳</text>
+      <text class="tab-text">详细烹饪制作步骤</text>
+    </view>
+  </view>
+
+  <!-- 内容区 1: 配料与调料 -->
+  <view wx:if="{{activeTab === 'materials'}}" class="materials-section">
+    <!-- 主配料卡片 -->
+    <view class="cozy-card section-card">
+      <view class="section-card-header">
+        <view class="header-left">
+          <text class="section-icon">🥦</text>
+          <text class="section-title">所需食材 / 配料</text>
+        </view>
+        <text class="section-hint">点击可勾选已备齐</text>
+      </view>
+
+      <view class="ingredient-list">
+        <view 
+          wx:for="{{dish.ingredients}}" 
+          wx:key="name" 
+          class="ingredient-item {{checkedIngredients[item.name] ? 'ingredient-checked' : ''}}"
+          bindtap="toggleIngredientCheck"
+          data-name="{{item.name}}"
+        >
+          <view class="check-box">
+            <text class="check-icon">{{checkedIngredients[item.name] ? '✓' : '○'}}</text>
+          </view>
+          <view class="ingredient-info">
+            <text class="ingredient-name">{{item.name}}</text>
+            <text wx:if="{{item.note}}" class="ingredient-note">({{item.note}})</text>
+          </view>
+          <text class="ingredient-amount">{{item.amount}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 调味料精准清单卡片 -->
+    <view class="cozy-card section-card">
+      <view class="section-card-header">
+        <view class="header-left">
+          <text class="section-icon">🧂</text>
+          <text class="section-title">调味料配比 (保证臭乐乐爱吃)</text>
+        </view>
+        <text class="section-hint">精准配比</text>
+      </view>
+
+      <view class="seasoning-list">
+        <view wx:for="{{dish.seasonings}}" wx:key="name" class="seasoning-row">
+          <view class="seasoning-left">
+            <text class="seasoning-bullet">●</text>
+            <text class="seasoning-name">{{item.name}}</text>
+          </view>
+          <view class="seasoning-right">
+            <text class="seasoning-amount">{{item.amount}}</text>
+            <text wx:if="{{item.note}}" class="seasoning-note">({{item.note}})</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容区 2: 详细步骤与火候定时器 -->
+  <view wx:if="{{activeTab === 'steps'}}" class="steps-section">
+    <view 
+      wx:for="{{dish.steps}}" 
+      wx:key="step" 
+      class="cozy-card step-card"
+    >
+      <view class="step-card-header">
+        <view class="step-number-badge">
+          <text>第 {{item.step}} 步</text>
+        </view>
+        <text class="step-title-text">{{item.title}}</text>
+      </view>
+
+      <view class="step-body">
+        <text class="step-description">{{item.desc}}</text>
+      </view>
+
+      <!-- 步骤提示与小贴士 -->
+      <view wx:if="{{item.tips}}" class="step-tip-box">
+        <text class="tip-icon">💡 做菜关键提醒：</text>
+        <text class="tip-text">{{item.tips}}</text>
+      </view>
+
+      <!-- 倒计时定时器 (用于掌控火候) -->
+      <view wx:if="{{item.timerSeconds > 0}}" class="step-timer-box">
+        <view class="timer-display">
+          <text class="timer-icon">⏳</text>
+          <text class="timer-label">建议火候耗时：</text>
+          <text class="timer-time">{{activeTimerStep === item.step ? timerCountDownStr : (item.timerSeconds / 60) + ' 分钟'}}</text>
+        </view>
+        <button 
+          class="timer-btn {{activeTimerStep === item.step ? 'timer-btn-active' : ''}}" 
+          bindtap="toggleStepTimer" 
+          data-step="{{item.step}}" 
+          data-seconds="{{item.timerSeconds}}"
+        >
+          {{activeTimerStep === item.step ? '计时中...' : '开始计时'}}
+        </button>
+      </view>
+    </view>
+
+    <!-- 大厨做菜心得 -->
+    <view wx:if="{{dish.chefTips}}" class="cozy-card chef-tips-card">
+      <view class="chef-tips-header">
+        <text class="chef-tips-icon">👨‍🍳</text>
+        <text class="chef-tips-title">大厨心得与口感秘诀</text>
+      </view>
+      <text class="chef-tips-content">{{dish.chefTips}}</text>
+    </view>
+  </view>
+
+  <!-- 底部固定操作栏 -->
+  <view class="detail-bottom-bar">
+    <view class="bottom-device-hint">
+      <text>当前点餐设备: {{currentProfile.nickname}} ({{currentProfile.deviceAlias || currentProfile.deviceModel}})</text>
+    </view>
+    <view class="bottom-actions">
+      <button class="btn-share-dish" open-type="share">
+        <text>📤 分享给大厨：我想吃这个！</text>
+      </button>
+      <button class="btn-primary add-cart-btn" bindtap="addToCart">
+        <text>💖 加入臭乐乐点餐篮 ({{dishCountInCart}})</text>
+      </button>
+    </view>
+  </view>
+</view>

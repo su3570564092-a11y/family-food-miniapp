@@ -1,0 +1,852 @@
+.chef-page {
+  padding: 24rpx;
+}
+
+/* 顶部工作台标题 */
+.chef-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+  padding: 10rpx 4rpx;
+}
+
+.chef-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.chef-badge {
+  display: inline-block;
+  font-size: 20rpx;
+  color: #FF4D7E;
+  font-weight: 700;
+  background: #FFEBF0;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  align-self: flex-start;
+  margin-bottom: 6rpx;
+  border: 1rpx solid #FFCCD8;
+}
+
+.chef-main-title {
+  font-size: 38rpx;
+  font-weight: 800;
+  color: #351C2C;
+}
+
+.chef-status-pill {
+  display: flex;
+  align-items: center;
+  background: #F5E8FF;
+  border: 1rpx solid #E4CCF7;
+  border-radius: 30rpx;
+  padding: 8rpx 18rpx;
+}
+
+.live-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #9D4EDD;
+  margin-right: 10rpx;
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+.live-text {
+  font-size: 22rpx;
+  color: #7E22CE;
+  font-weight: 600;
+}
+
+/* 状态筛选标签栏 */
+.status-tabs {
+  white-space: nowrap;
+  display: flex;
+  margin-bottom: 24rpx;
+}
+
+.status-tab-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 14rpx 28rpx;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  border: 1rpx solid #FFE0E8;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.status-tab-name {
+  font-size: 26rpx;
+  color: #6C4B5E;
+  font-weight: 500;
+}
+
+.status-count-badge {
+  background: #FF4D7E;
+  color: #FFFFFF;
+  font-size: 18rpx;
+  font-weight: bold;
+  min-width: 30rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  text-align: center;
+  border-radius: 50%;
+  margin-left: 10rpx;
+}
+
+.tab-active {
+  background: #351C2C;
+  border-color: #351C2C;
+}
+
+.tab-active .status-tab-name {
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+/* 订单卡片 */
+.order-card {
+  padding: 28rpx;
+  margin-bottom: 28rpx;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #FFEBF0;
+}
+
+.family-device-badge {
+  display: flex;
+  align-items: center;
+}
+
+.member-avatar {
+  font-size: 52rpx;
+  margin-right: 16rpx;
+}
+
+.member-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-name-row {
+  display: flex;
+  align-items: center;
+}
+
+.member-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #351C2C;
+}
+
+.meal-session-tag {
+  background: #FFE8EF;
+  color: #FF4D7E;
+  font-size: 20rpx;
+  font-weight: 600;
+  padding: 2rpx 12rpx;
+  border-radius: 12rpx;
+  margin-left: 10rpx;
+}
+
+.device-tag-name {
+  font-size: 20rpx;
+  color: #B392A7;
+  margin-top: 4rpx;
+}
+
+.status-chip {
+  font-size: 22rpx;
+  font-weight: bold;
+  padding: 6rpx 18rpx;
+  border-radius: 20rpx;
+}
+
+.status-pending {
+  background: #FFEBF0;
+  color: #FF4D7E;
+  border: 1rpx solid #FFCCD8;
+}
+
+.status-preparing {
+  background: #FFF3E0;
+  color: #FB8C00;
+}
+
+.status-cooking {
+  background: #FCE4EC;
+  color: #D81B60;
+}
+
+.status-served {
+  background: #E8F5E9;
+  color: #43A047;
+}
+
+.status-done {
+  background: #F5F5F5;
+  color: #9E9E9E;
+}
+
+/* 时间与说明 */
+.order-time-info {
+  display: flex;
+  flex-direction: column;
+  padding: 16rpx 0;
+  font-size: 24rpx;
+  color: #7A5B6E;
+  border-bottom: 1rpx dashed #FFE0E8;
+}
+
+.time-item {
+  margin-bottom: 6rpx;
+}
+
+.highlight-time {
+  color: #FF4D7E;
+  font-weight: 600;
+}
+
+/* 备注区 */
+.order-remark-box {
+  background: #FFF5F8;
+  border: 1rpx solid #FFD3DF;
+  border-radius: 18rpx;
+  padding: 16rpx;
+  margin: 16rpx 0;
+}
+
+.remark-tags {
+  margin-bottom: 8rpx;
+}
+
+.custom-note-text {
+  font-size: 24rpx;
+  color: #9D4EDD;
+  font-weight: 500;
+  display: block;
+}
+
+/* 菜品列表 */
+.order-dishes-section {
+  padding: 16rpx 0;
+}
+
+.section-label {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #8C6A7B;
+  margin-bottom: 12rpx;
+}
+
+.dish-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14rpx 0;
+  border-bottom: 1rpx solid #FFF0F4;
+}
+
+.dish-name-and-count {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.dish-item-icon {
+  font-size: 34rpx;
+  margin-right: 12rpx;
+}
+
+.dish-item-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #351C2C;
+}
+
+.dish-item-count {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #FF4D7E;
+  margin-left: 14rpx;
+}
+
+.btn-view-recipe-quick {
+  display: flex;
+  align-items: center;
+  background: #FFF0F4;
+  border: 1rpx solid #FFCCD8;
+  color: #FF4D7E;
+  font-size: 22rpx;
+  font-weight: 600;
+  padding: 8rpx 18rpx;
+  border-radius: 24rpx;
+}
+
+.book-icon {
+  margin-right: 6rpx;
+}
+
+/* 底部操作 */
+.order-actions-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #FFEBF0;
+}
+
+.total-dishes-text {
+  font-size: 26rpx;
+  color: #8C6A7B;
+}
+
+.btn-action {
+  font-size: 26rpx;
+  padding: 14rpx 28rpx;
+  border-radius: 30rpx;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.btn-cooking {
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+}
+
+.btn-served {
+  background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+  box-shadow: 0 6rpx 16rpx rgba(76, 175, 80, 0.3);
+}
+
+.done-tag {
+  font-size: 24rpx;
+  color: #B392A7;
+  font-style: italic;
+}
+
+/* 厨房快速菜谱抽屉/弹窗 */
+.recipe-drawer-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(53, 28, 44, 0.6);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+}
+
+.recipe-drawer-content {
+  background: #FFFFFF;
+  width: 100%;
+  max-height: 85vh;
+  border-top-left-radius: 40rpx;
+  border-top-right-radius: 40rpx;
+  padding: 32rpx;
+  display: flex;
+  flex-direction: column;
+  border-top: 4rpx solid #FF85A1;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #FFE0E8;
+}
+
+.drawer-dish-title {
+  display: flex;
+  align-items: center;
+}
+
+.drawer-dish-emoji {
+  font-size: 48rpx;
+  margin-right: 14rpx;
+}
+
+.drawer-dish-name {
+  font-size: 34rpx;
+  font-weight: 800;
+  color: #351C2C;
+}
+
+.drawer-close-btn {
+  font-size: 36rpx;
+  color: #999;
+  padding: 10rpx;
+}
+
+.drawer-scroll {
+  flex: 1;
+  max-height: 60vh;
+  padding: 20rpx 0;
+}
+
+.drawer-block {
+  margin-bottom: 28rpx;
+}
+
+.block-title-row {
+  margin-bottom: 14rpx;
+}
+
+.block-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #351C2C;
+}
+
+.drawer-material-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12rpx;
+}
+
+.drawer-mat-chip {
+  background: #FFF9FA;
+  border: 1rpx solid #FFE4EC;
+  border-radius: 14rpx;
+  padding: 14rpx 16rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #351C2C;
+}
+
+.mat-amount {
+  font-size: 24rpx;
+  color: #FF4D7E;
+  font-weight: 700;
+  margin-top: 4rpx;
+}
+
+.mat-note {
+  font-size: 20rpx;
+  color: #8C6A7B;
+  margin-top: 2rpx;
+}
+
+.drawer-seasoning-list {
+  background: #FFF9FA;
+  border: 1rpx solid #FFE4EC;
+  border-radius: 16rpx;
+  padding: 14rpx;
+}
+
+.drawer-seasoning-item {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 8rpx;
+  border-bottom: 1rpx dashed #FFE0E8;
+}
+
+.drawer-seasoning-item:last-child {
+  border-bottom: none;
+}
+
+.seasoning-name-text {
+  font-size: 26rpx;
+  color: #4A3342;
+  font-weight: 500;
+  flex: 1;
+}
+
+.seasoning-amount-text {
+  font-size: 26rpx;
+  color: #FF4D7E;
+  font-weight: 700;
+  margin-right: 10rpx;
+}
+
+.seasoning-note-text {
+  font-size: 20rpx;
+  color: #B392A7;
+}
+
+.drawer-step-item {
+  background: #FFF9FA;
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  margin-bottom: 14rpx;
+  border: 1rpx solid #FFE4EC;
+}
+
+.drawer-step-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.step-num-pill {
+  background: linear-gradient(135deg, #FF7597 0%, #FF4D7E 100%);
+  color: #FFF;
+  font-size: 20rpx;
+  font-weight: bold;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  margin-right: 10rpx;
+}
+
+.step-subname {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #351C2C;
+}
+
+.drawer-step-desc {
+  font-size: 24rpx;
+  color: #553549;
+  line-height: 36rpx;
+  display: block;
+}
+
+.drawer-step-tip {
+  font-size: 22rpx;
+  color: #FF4D7E;
+  background: #FFF0F4;
+  padding: 8rpx 12rpx;
+  border-radius: 10rpx;
+  margin-top: 8rpx;
+}
+
+.drawer-tips-box {
+  background: #FFF5F9;
+  border: 1rpx solid #FFCCD8;
+  border-radius: 16rpx;
+  padding: 16rpx;
+  margin-top: 10rpx;
+}
+
+.tips-badge {
+  font-size: 22rpx;
+  color: #FF4D7E;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.tips-text {
+  font-size: 24rpx;
+  color: #6C4B5E;
+  line-height: 34rpx;
+}
+
+.drawer-footer {
+  padding-top: 20rpx;
+  border-top: 1rpx solid #FFE0E8;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+/* ================= 订单工具栏 (买菜清单 & 做菜顺序) ================= */
+.order-tools-row {
+  display: flex;
+  gap: 16rpx;
+  margin: 16rpx 0;
+  padding: 14rpx 0;
+  border-top: 1rpx dashed #FFE0E8;
+  border-bottom: 1rpx dashed #FFE0E8;
+}
+
+.btn-chef-tool {
+  flex: 1;
+  font-size: 24rpx;
+  font-weight: 600;
+  border-radius: 16rpx;
+  padding: 14rpx 10rpx;
+  line-height: 1.3;
+  text-align: center;
+  border: none;
+}
+
+.btn-tool-grocery {
+  background: #FFF0F4;
+  color: #FF4D7E;
+  border: 1rpx solid #FFCCD8;
+}
+
+.btn-tool-plan {
+  background: #F0F7FF;
+  color: #2196F3;
+  border: 1rpx solid #BBDEFB;
+}
+
+/* 采购清单抽屉 */
+.grocery-summary-tip {
+  background: #FFF7F9;
+  border: 1rpx solid #FFD4DF;
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.summary-tip-title {
+  font-size: 24rpx;
+  font-weight: bold;
+  color: #FF4D7E;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.summary-tip-text {
+  font-size: 22rpx;
+  color: #7A5B6E;
+  line-height: 32rpx;
+}
+
+.grocery-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.grocery-item {
+  display: flex;
+  align-items: flex-start;
+  background: #FAFAFA;
+  border: 1rpx solid #EEEEEE;
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  transition: all 0.2s;
+}
+
+.grocery-item-done {
+  background: #F0F0F0;
+  opacity: 0.6;
+}
+
+.grocery-item-done .grocery-item-name {
+  text-decoration: line-through;
+  color: #999999;
+}
+
+.grocery-check-box {
+  margin-right: 18rpx;
+  padding-top: 2rpx;
+}
+
+.check-icon {
+  display: inline-block;
+  width: 38rpx;
+  height: 38rpx;
+  line-height: 36rpx;
+  text-align: center;
+  border-radius: 50%;
+  border: 2rpx solid #FF6B8B;
+  color: #FF6B8B;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.grocery-item-done .check-icon {
+  background: #4CAF50;
+  border-color: #4CAF50;
+  color: #FFFFFF;
+}
+
+.grocery-item-info {
+  flex: 1;
+}
+
+.grocery-item-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6rpx;
+}
+
+.grocery-item-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.grocery-item-amount {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #FF4D7E;
+}
+
+.grocery-item-sources {
+  font-size: 22rpx;
+  color: #999999;
+  display: block;
+}
+
+.seasoning-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.seasoning-chip-item {
+  background: #F8F4F6;
+  border-radius: 12rpx;
+  padding: 10rpx 16rpx;
+  font-size: 22rpx;
+}
+
+.chip-name {
+  color: #444444;
+  font-weight: 500;
+  margin-right: 8rpx;
+}
+
+.chip-amount {
+  color: #888888;
+}
+
+.grocery-footer {
+  display: flex;
+  gap: 16rpx;
+}
+
+.btn-copy {
+  flex: 1.2;
+  font-size: 24rpx;
+  padding: 20rpx 0;
+  border-radius: 36rpx;
+}
+
+.btn-close {
+  flex: 1;
+  font-size: 24rpx;
+  padding: 20rpx 0;
+  border-radius: 36rpx;
+}
+
+/* 做菜时序规划 */
+.plan-hero-tip {
+  background: #F0F7FF;
+  border: 1rpx solid #BBDEFB;
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.plan-hero-title {
+  font-size: 24rpx;
+  font-weight: bold;
+  color: #1976D2;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.plan-hero-desc {
+  font-size: 22rpx;
+  color: #555555;
+  line-height: 32rpx;
+}
+
+.plan-steps-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.plan-step-card {
+  background: #FFFFFF;
+  border: 1rpx solid #FFE0E8;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.03);
+}
+
+.plan-step-header {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.plan-num-badge {
+  background: #FF527B;
+  color: #FFFFFF;
+  font-size: 20rpx;
+  font-weight: bold;
+  padding: 4rpx 14rpx;
+  border-radius: 20rpx;
+}
+
+.plan-phase-tag {
+  font-size: 20rpx;
+  font-weight: 600;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+}
+
+.plan-time-tag {
+  font-size: 20rpx;
+  color: #999999;
+  margin-left: auto;
+}
+
+.plan-step-title-text {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #333333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.plan-step-desc-text {
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 36rpx;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.plan-dishes-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.plan-dish-chip {
+  display: flex;
+  align-items: center;
+  background: #FFF5F8;
+  border: 1rpx solid #FFD0DD;
+  border-radius: 24rpx;
+  padding: 6rpx 16rpx;
+  font-size: 22rpx;
+}
+
+.chip-emoji {
+  margin-right: 6rpx;
+}
+
+.chip-title {
+  color: #FF4D7E;
+  font-weight: 600;
+}
+
+.chip-time {
+  color: #999999;
+  font-size: 20rpx;
+  margin-left: 6rpx;
+}

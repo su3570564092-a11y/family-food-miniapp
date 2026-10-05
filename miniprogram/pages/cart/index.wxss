@@ -1,0 +1,385 @@
+.cart-page {
+  padding: 24rpx 24rpx calc(160rpx + env(safe-area-inset-bottom)) 24rpx;
+}
+
+/* 顶部设备卡片 */
+.device-banner-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #FFF0F4 0%, #FFFFFF 100%);
+  border: 1rpx solid #FFD3DF;
+  padding: 24rpx;
+  gap: 16rpx;
+}
+
+.device-banner-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.banner-avatar {
+  font-size: 52rpx;
+  margin-right: 18rpx;
+  flex-shrink: 0;
+}
+
+.banner-texts {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.banner-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.banner-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #3D2231;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.banner-tag {
+  background: #FF4D7E;
+  color: #FFFFFF;
+  font-size: 18rpx;
+  font-weight: 600;
+  padding: 2rpx 12rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+}
+
+.banner-device-info {
+  font-size: 22rpx;
+  color: #8C6A7B;
+  margin-top: 6rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-change-profile {
+  background: #FFFFFF;
+  border: 1rpx solid #FFCCD8;
+  color: #FF4D7E;
+  font-size: 24rpx;
+  padding: 10rpx 22rpx;
+  border-radius: 30rpx;
+  margin: 0;
+  line-height: 1.5;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* 菜品清单卡片 */
+.cart-list-card {
+  padding: 28rpx;
+}
+
+.card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1rpx solid #FFEBF0;
+}
+
+.title-left {
+  display: flex;
+  align-items: center;
+}
+
+.card-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #3D2231;
+}
+
+.btn-clear-cart {
+  font-size: 24rpx;
+  color: #BFA0B3;
+  padding: 6rpx 12rpx;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-dish-item {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx dashed #FFE0E8;
+  gap: 16rpx;
+}
+
+.dish-visual-mini {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 16rpx;
+  background: #FFF0F4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1rpx solid #FFD3DF;
+  overflow: hidden;
+}
+
+.mini-real-img {
+  width: 100%;
+  height: 100%;
+}
+
+.mini-emoji {
+  font-size: 44rpx;
+}
+
+.dish-info-column {
+  flex: 1;
+  min-width: 0;
+}
+
+.dish-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.dish-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #3D2231;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dish-cat-pill {
+  font-size: 18rpx;
+  color: #FF4D7E;
+  background: #FFEBF0;
+  padding: 2rpx 10rpx;
+  border-radius: 10rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.dish-cook-time {
+  font-size: 22rpx;
+  color: #BFA0B3;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.step-btn {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.step-btn.minus {
+  background: #FCEBF0;
+  color: #7A5B6E;
+}
+
+.step-btn.plus {
+  background: #FF4D7E;
+  color: #FFF;
+}
+
+.step-value {
+  font-size: 26rpx;
+  font-weight: 700;
+  margin: 0 16rpx;
+  color: #3D2231;
+}
+
+/* 用餐设置卡片 */
+.meal-settings-card {
+  padding: 28rpx;
+}
+
+.setting-item {
+  display: flex;
+  flex-direction: column;
+  padding: 12rpx 0;
+}
+
+.border-top {
+  border-top: 1rpx solid #FFEBF0;
+  margin-top: 16rpx;
+  padding-top: 20rpx;
+}
+
+.setting-label {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #553549;
+  margin-bottom: 14rpx;
+}
+
+.meal-type-chips {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14rpx;
+}
+
+.meal-chip {
+  background: #FFF5F7;
+  border-radius: 20rpx;
+  padding: 16rpx 8rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1rpx solid transparent;
+}
+
+.chip-active {
+  background: #FFE8EF;
+  border-color: #FF4D7E;
+}
+
+.chip-icon {
+  font-size: 32rpx;
+  margin-bottom: 4rpx;
+}
+
+.chip-text {
+  font-size: 24rpx;
+  color: #6C4B5E;
+  font-weight: 500;
+}
+
+.chip-active .chip-text {
+  color: #FF4D7E;
+  font-weight: bold;
+}
+
+.time-picker-value {
+  background: #FFF5F7;
+  padding: 18rpx 24rpx;
+  border-radius: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1rpx solid #FFD3DF;
+}
+
+.time-text {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #3D2231;
+}
+
+.picker-arrow {
+  font-size: 24rpx;
+  color: #FF4D7E;
+}
+
+/* 口味备注卡片 */
+.remarks-card {
+  padding: 28rpx;
+}
+
+.quick-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.quick-tag-pill {
+  font-size: 24rpx;
+  padding: 10rpx 20rpx;
+  border-radius: 30rpx;
+  background: #FFF5F7;
+  color: #7A5B6E;
+  border: 1rpx solid #FFD3DF;
+  transition: all 0.15s;
+}
+
+.tag-selected {
+  background: #FFE8EF;
+  color: #FF4D7E;
+  border-color: #FF4D7E;
+  font-weight: 600;
+}
+
+.remarks-textarea {
+  width: 100%;
+  height: 140rpx;
+  background: #FFF5F7;
+  border-radius: 20rpx;
+  padding: 18rpx 20rpx;
+  font-size: 26rpx;
+  color: #3D2231;
+  border: 1rpx solid #FFD3DF;
+}
+
+/* 底部提交栏 */
+.bottom-submit-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-top: 1rpx solid #FFE0E8;
+  padding: 16rpx 28rpx calc(16rpx + env(safe-area-inset-bottom)) 28rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 -8rpx 24rpx rgba(255, 82, 123, 0.08);
+  z-index: 100;
+}
+
+.order-summary-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-count {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #3D2231;
+}
+
+.summary-hint {
+  font-size: 22rpx;
+  color: #BFA0B3;
+}
+
+.submit-btn {
+  padding: 22rpx 44rpx;
+  margin: 0;
+}
+
+.mt-20 {
+  margin-top: 20rpx;
+}

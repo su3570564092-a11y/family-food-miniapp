@@ -1,0 +1,209 @@
+<view class="page-container">
+  <!-- 顶部标题与身份栏 (粉色温和风) -->
+  <view class="warm-header">
+    <view class="header-content">
+      <view class="greeting-box">
+        <text class="greeting-title">🐱 臭乐乐专属点餐</text>
+        <text class="greeting-subtitle">想吃什么随时点，我来掌勺做~</text>
+      </view>
+
+      <!-- 独立设备身份胶囊 -->
+      <view class="device-pill" bindtap="openDeviceModal">
+        <text class="device-avatar">{{currentProfile.avatar || '🐱'}}</text>
+        <view class="device-info-text">
+          <text class="device-name">{{currentProfile.nickname || '臭乐乐'}}</text>
+          <text class="device-model">{{currentProfile.deviceAlias || '手机'}}</text>
+        </view>
+        <text class="device-edit-icon">切换</text>
+      </view>
+    </view>
+
+    <!-- 仅在掌勺验证设备上才显示的专属控制台通道 (臭乐乐手机完全隐藏) -->
+    <view wx:if="{{isChefAuthenticated}}" class="chef-authorized-banner" bindtap="goToChefOrders">
+      <view class="chef-banner-left">
+        <text class="chef-banner-icon">👨‍🍳</text>
+        <text class="chef-banner-text">已解锁：进入掌勺接单台 (接单/看谱)</text>
+      </view>
+      <text class="chef-banner-arrow">点击进入 ❯</text>
+    </view>
+
+    <!-- 搜索栏 -->
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input" 
+        placeholder="搜索想吃的菜品、食材（如：鲈鱼、排骨）..." 
+        value="{{searchKeyword}}" 
+        bindinput="onSearchInput"
+        placeholder-class="placeholder-color"
+      />
+      <text wx:if="{{searchKeyword}}" class="clear-icon" bindtap="clearSearch">✕</text>
+    </view>
+  </view>
+
+  <!-- 5大餐别分类横向滚动切换 -->
+  <scroll-view class="category-scroll" scroll-x enable-flex show-scrollbar="{{false}}">
+    <view 
+      wx:for="{{categories}}" 
+      wx:key="key" 
+      class="category-item {{currentCategory === item.key ? 'category-active' : ''}}"
+      bindtap="selectCategory" 
+      data-key="{{item.key}}"
+    >
+      <text class="category-icon">{{item.icon}}</text>
+      <text class="category-name">{{item.name}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 菜品列表 -->
+  <view class="dishes-list">
+    <view wx:if="{{filteredDishes.length === 0}}" class="empty-box">
+      <text class="empty-icon">🍽️</text>
+      <text class="empty-text">该分类下暂无菜品</text>
+      <text class="empty-subtext">可以在菜谱管理中添加新菜品</text>
+    </view>
+
+    <view 
+      wx:for="{{filteredDishes}}" 
+      wx:key="id" 
+      class="cozy-card dish-card"
+    >
+      <view class="dish-card-main">
+        <!-- 菜品图片或图标 -->
+        <view class="dish-visual-box" bindtap="goToDishDetail" data-id="{{item.id}}">
+          <image wx:if="{{item.image}}" class="dish-real-img" src="{{item.image}}" mode="aspectFill" />
+          <text wx:else class="dish-emoji">{{item.icon || '🍲'}}</text>
+          <view class="dish-time-badge">⏱ {{item.cookingTime}}</view>
+        </view>
+
+        <!-- 菜品信息 (防挤压设计) -->
+        <view class="dish-content">
+          <view class="dish-header" bindtap="goToDishDetail" data-id="{{item.id}}">
+            <text class="dish-title">{{item.name}}</text>
+            <text class="dish-category-tag tag-badge tag-pink">{{item.categoryName}}</text>
+          </view>
+
+          <!-- 标签 -->
+          <view class="dish-tags" bindtap="goToDishDetail" data-id="{{item.id}}">
+            <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="tag-badge tag-cat">{{tag}}</text>
+          </view>
+
+          <!-- 描述 -->
+          <text class="dish-desc" bindtap="goToDishDetail" data-id="{{item.id}}">{{item.description}}</text>
+
+          <!-- 主配料缩略 -->
+          <view class="dish-ingredients-preview" bindtap="goToDishDetail" data-id="{{item.id}}">
+            <text class="ingredients-label">主料：</text>
+            <text class="ingredients-text">
+              <text wx:for="{{item.ingredients}}" wx:for-item="ing" wx:key="name">{{ing.name}} </text>
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 卡片底栏：查看配料步骤 & 加购物车 -->
+      <view class="dish-card-footer">
+        <view class="btn-recipe-view" bindtap="goToDishDetail" data-id="{{item.id}}">
+          <text class="recipe-icon">📖</text>
+          <text>查看配料与做法</text>
+        </view>
+
+        <!-- 加减购物车按钮组 -->
+        <view class="cart-control">
+          <block wx:if="{{cartCounts[item.id] > 0}}">
+            <view class="btn-circle btn-minus" bindtap="decreaseCart" data-dish="{{item}}">-</view>
+            <text class="cart-num">{{cartCounts[item.id]}}</text>
+          </block>
+          <view class="btn-circle btn-plus" bindtap="increaseCart" data-dish="{{item}}">+</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多指示条 -->
+    <view wx:if="{{filteredDishes.length > 0 && hasMore}}" class="list-load-hint" bindtap="loadMoreDishes">
+      <text>下滑或点击浏览更多美味菜品 (共{{allFilteredDishes.length}}道)...</text>
+    </view>
+    <view wx:elif="{{filteredDishes.length > 0 && !hasMore}}" class="list-end-hint">
+      <text>—— 已经到底啦，1077道精选菜品任臭乐乐挑选 ——</text>
+    </view>
+  </view>
+
+  <!-- 底部常驻点餐篮浮条 -->
+  <view wx:if="{{totalCount > 0}}" class="floating-cart-bar">
+    <view class="cart-bar-content">
+      <view class="cart-badge-wrap" bindtap="goToCart">
+        <view class="cart-icon-bg">
+          <text class="cart-icon">🛒</text>
+          <text class="cart-badge">{{totalCount}}</text>
+        </view>
+        <view class="cart-summary">
+          <text class="cart-main-text">已选 {{totalCount}} 道菜品</text>
+          <text class="cart-sub-text">{{currentProfile.nickname}}的点单</text>
+        </view>
+      </view>
+
+      <view class="btn-order-now" bindtap="goToCart">
+        <text>选好了，去下单</text>
+        <text class="arrow-right">→</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 身份与设备设置弹窗 -->
+  <view wx:if="{{showDeviceModal}}" class="modal-mask" bindtap="closeDeviceModal">
+    <view class="modal-content" catchtap="preventBubble">
+      <view class="modal-header">
+        <text class="modal-title">称呼与设备设置</text>
+        <text class="modal-close" bindtap="closeDeviceModal">✕</text>
+      </view>
+      <text class="modal-desc">可选择称呼，下单时大厨能看到是谁点的单~</text>
+
+      <!-- 角色头像预设 -->
+      <view class="role-grid">
+        <view 
+          wx:for="{{familyRoles}}" 
+          wx:key="id" 
+          class="role-card {{editProfile.roleId === item.id ? 'role-card-active' : ''}}"
+          bindtap="selectRolePreset" 
+          data-role="{{item}}"
+        >
+          <text class="role-avatar">{{item.avatar}}</text>
+          <text class="role-name">{{item.name}}</text>
+        </view>
+      </view>
+
+      <!-- 自定义称呼 -->
+      <view class="form-group">
+        <text class="form-label">点餐人称呼：</text>
+        <input 
+          class="form-input" 
+          value="{{editProfile.nickname}}" 
+          bindinput="onNicknameInput" 
+          placeholder="如：臭乐乐..." 
+        />
+      </view>
+
+      <!-- 设备别名 -->
+      <view class="form-group">
+        <text class="form-label">设备备注名：</text>
+        <input 
+          class="form-input" 
+          value="{{editProfile.deviceAlias}}" 
+          bindinput="onDeviceAliasInput" 
+          placeholder="如：臭乐乐的手机、平板..." 
+        />
+      </view>
+
+      <!-- 保存按钮 -->
+      <button class="btn-primary modal-save-btn" bindtap="saveDeviceProfile">
+        确定保存
+      </button>
+
+      <!-- 掌勺专属验证暗门 (仅掌勺本人使用) -->
+      <view class="secret-chef-door" bindtap="triggerChefAuthModal">
+        <text wx:if="{{!isChefAuthenticated}}" class="secret-text">🔒 掌勺验证通道 (仅做饭本人使用)</text>
+        <text wx:else class="secret-text chef-unlocked">✅ 本机已解锁掌勺权限 (点击可重新锁定)</text>
+      </view>
+    </view>
+  </view>
+</view>

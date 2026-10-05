@@ -1,0 +1,133 @@
+<view class="page-container cart-page">
+  <!-- 顶部设备与点餐人卡片 -->
+  <view class="cozy-card device-banner-card">
+    <view class="device-banner-left">
+      <text class="banner-avatar">{{currentProfile.avatar || '🐱'}}</text>
+      <view class="banner-texts">
+        <view class="banner-name-row">
+          <text class="banner-name">{{currentProfile.nickname}}</text>
+          <text class="banner-tag">点餐单</text>
+        </view>
+        <text class="banner-device-info">📱 {{currentProfile.deviceAlias || currentProfile.deviceModel}} · 独立设备</text>
+      </view>
+    </view>
+    <button class="btn-change-profile" bindtap="goToChangeProfile">修改称呼</button>
+  </view>
+
+  <!-- 空点餐篮提示 -->
+  <view wx:if="{{cartItems.length === 0}}" class="empty-box">
+    <text class="empty-icon">🍽️</text>
+    <text class="empty-text">点餐单是空的</text>
+    <text class="empty-subtext">快去菜单挑选想吃的菜品吧~</text>
+    <button class="btn-primary mt-20" bindtap="goToMenu">前往菜单选菜</button>
+  </view>
+
+  <block wx:else>
+    <!-- 已选菜品清单卡片 -->
+    <view class="cozy-card cart-list-card">
+      <view class="card-title-row">
+        <view class="title-left">
+          <text class="card-icon">🍲</text>
+          <text class="card-title">待制作菜品 ({{totalCount}}道)</text>
+        </view>
+        <text class="btn-clear-cart" bindtap="confirmClearCart">清空</text>
+      </view>
+
+      <view class="cart-items">
+        <view wx:for="{{cartItems}}" wx:key="index" class="cart-dish-item">
+          <!-- 缩略图或Emoji -->
+          <view class="dish-visual-mini">
+            <image wx:if="{{item.dish.image}}" class="mini-real-img" src="{{item.dish.image}}" mode="aspectFill" />
+            <text wx:else class="mini-emoji">{{item.dish.icon || '🍲'}}</text>
+          </view>
+          
+          <view class="dish-info-column">
+            <view class="dish-name-row">
+              <text class="dish-name">{{item.dish.name}}</text>
+              <text class="dish-cat-pill">{{item.dish.categoryName}}</text>
+            </view>
+            <text class="dish-cook-time">用时约：{{item.dish.cookingTime}}</text>
+          </view>
+
+          <!-- 加减控制器 (防挤压) -->
+          <view class="stepper">
+            <view class="step-btn minus" bindtap="decreaseItem" data-index="{{index}}">-</view>
+            <text class="step-value">{{item.count}}</text>
+            <view class="step-btn plus" bindtap="increaseItem" data-index="{{index}}">+</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 用餐类型与期望用餐时间 -->
+    <view class="cozy-card meal-settings-card">
+      <view class="setting-item">
+        <text class="setting-label">用餐餐别：</text>
+        <view class="meal-type-chips">
+          <view 
+            wx:for="{{mealTypes}}" 
+            wx:key="key" 
+            class="meal-chip {{selectedMealType === item.key ? 'chip-active' : ''}}"
+            bindtap="selectMealType"
+            data-key="{{item.key}}"
+          >
+            <text class="chip-icon">{{item.icon}}</text>
+            <text class="chip-text">{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="setting-item border-top">
+        <text class="setting-label">期望开饭时间：</text>
+        <picker mode="time" value="{{expectedTime}}" bindchange="onTimeChange">
+          <view class="time-picker-value">
+            <text class="time-text">{{expectedTime ? expectedTime : '尽快出锅 (现点现炒)'}}</text>
+            <text class="picker-arrow">🕒 选择时间 ❯</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 特殊口味备注 -->
+    <view class="cozy-card remarks-card">
+      <view class="card-title-row">
+        <view class="title-left">
+          <text class="card-icon">📝</text>
+          <text class="card-title">口味偏好与备注</text>
+        </view>
+      </view>
+
+      <!-- 快捷标签 -->
+      <view class="quick-tags-container">
+        <text 
+          wx:for="{{quickTags}}" 
+          wx:key="*this" 
+          class="quick-tag-pill {{selectedQuickTags[item] ? 'tag-selected' : ''}}"
+          bindtap="toggleQuickTag"
+          data-tag="{{item}}"
+        >
+          {{item}}
+        </text>
+      </view>
+
+      <textarea 
+        class="remarks-textarea" 
+        placeholder="其他备注要求（如：少放盐、葱花分开装等）..." 
+        value="{{customRemark}}"
+        bindinput="onRemarkInput"
+        maxlength="150"
+      ></textarea>
+    </view>
+
+    <!-- 底部固定下单操作条 -->
+    <view class="bottom-submit-bar">
+      <view class="order-summary-box">
+        <text class="summary-count">共 {{totalCount}} 道菜品</text>
+        <text class="summary-hint">{{currentProfile.nickname}}的独立订单</text>
+      </view>
+      <button class="btn-primary submit-btn" bindtap="submitOrder" loading="{{isSubmitting}}">
+        提交订单
+      </button>
+    </view>
+  </block>
+</view>
