@@ -351,22 +351,24 @@
   gap: 14rpx;
 }
 
-.btn-recipe-view {
+.dish-chef-badge {
   display: flex;
   align-items: center;
-  background: #FFF0F4;
-  color: #FF4D7E;
-  font-size: 24rpx;
-  font-weight: 600;
-  padding: 10rpx 22rpx;
-  border-radius: 30rpx;
-  border: 1rpx solid #FFCCD8;
-  flex-shrink: 0;
+  background: #FFF5F7;
+  padding: 8rpx 18rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid #FFE4EA;
 }
 
-.recipe-icon {
-  margin-right: 8rpx;
-  font-size: 26rpx;
+.dish-chef-badge-icon {
+  font-size: 20rpx;
+  margin-right: 6rpx;
+}
+
+.dish-chef-badge-text {
+  font-size: 22rpx;
+  color: #D36A89;
+  font-weight: 500;
 }
 
 .cart-control {

@@ -70,7 +70,7 @@
     >
       <view class="dish-card-main">
         <!-- 菜品图片或图标 -->
-        <view class="dish-visual-box" bindtap="goToDishDetail" data-id="{{item.id}}">
+        <view class="dish-visual-box">
           <image wx:if="{{item.image}}" class="dish-real-img" src="{{item.image}}" mode="aspectFill" />
           <text wx:else class="dish-emoji">{{item.icon || '🍲'}}</text>
           <view class="dish-time-badge">⏱ {{item.cookingTime}}</view>
@@ -78,34 +78,26 @@
 
         <!-- 菜品信息 (防挤压设计) -->
         <view class="dish-content">
-          <view class="dish-header" bindtap="goToDishDetail" data-id="{{item.id}}">
+          <view class="dish-header">
             <text class="dish-title">{{item.name}}</text>
             <text class="dish-category-tag tag-badge tag-pink">{{item.categoryName}}</text>
           </view>
 
           <!-- 标签 -->
-          <view class="dish-tags" bindtap="goToDishDetail" data-id="{{item.id}}">
+          <view class="dish-tags">
             <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="tag-badge tag-cat">{{tag}}</text>
           </view>
 
           <!-- 描述 -->
-          <text class="dish-desc" bindtap="goToDishDetail" data-id="{{item.id}}">{{item.description}}</text>
-
-          <!-- 主配料缩略 -->
-          <view class="dish-ingredients-preview" bindtap="goToDishDetail" data-id="{{item.id}}">
-            <text class="ingredients-label">主料：</text>
-            <text class="ingredients-text">
-              <text wx:for="{{item.ingredients}}" wx:for-item="ing" wx:key="name">{{ing.name}} </text>
-            </text>
-          </view>
+          <text class="dish-desc">{{item.description}}</text>
         </view>
       </view>
 
-      <!-- 卡片底栏：查看配料步骤 & 加购物车 -->
+      <!-- 卡片底栏：臭乐乐专属点菜控制 -->
       <view class="dish-card-footer">
-        <view class="btn-recipe-view" bindtap="goToDishDetail" data-id="{{item.id}}">
-          <text class="recipe-icon">📖</text>
-          <text>查看配料与做法</text>
+        <view class="dish-chef-badge">
+          <text class="dish-chef-badge-icon">✨</text>
+          <text class="dish-chef-badge-text">大厨现做美味</text>
         </view>
 
         <!-- 加减购物车按钮组 -->

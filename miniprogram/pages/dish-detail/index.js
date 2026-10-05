@@ -16,6 +16,23 @@ Page({
   },
 
   onLoad(options) {
+    if (!deviceManager.isChefMode()) {
+      wx.showModal({
+        title: "掌勺大厨专属",
+        content: "菜品配料与详细做菜步骤仅限进入掌勺接单台后查看哦~",
+        showCancel: false,
+        confirmText: "返回点餐",
+        confirmColor: "#FF6B8B",
+        success: () => {
+          wx.navigateBack({
+            fail: () => {
+              wx.switchTab({ url: "/pages/menu/index" });
+            }
+          });
+        }
+      });
+      return;
+    }
     if (options && options.id) {
       this.setData({ dishId: options.id });
       this.loadDishDetail(options.id);

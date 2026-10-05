@@ -193,10 +193,11 @@ Page({
     }
   },
 
-  goToDishDetail(e) {
-    const id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: `/pages/dish-detail/index?id=${id}`
+  goToDishDetail() {
+    // 臭乐乐点餐端不展示配料与做法，大厨掌勺接单台专属
+    wx.showToast({
+      title: "大厨秘方，接单台掌勺专属~",
+      icon: "none"
     });
   },
 
