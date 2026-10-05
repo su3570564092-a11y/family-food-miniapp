@@ -9,6 +9,9 @@ const ORDER_STATUS = {
   DONE: { key: "done", label: "已完成", badgeColor: "#9E9E9E", actionLabel: "" }
 };
 
+// 云开发环境 ID（如已在控制台开通，填入此处可确保多台真机100%精准连入同一个云数据库）
+const CLOUD_ENV_ID = ""; 
+
 class CloudHelper {
   constructor() {
     this.isCloudEnabled = false;
@@ -20,7 +23,7 @@ class CloudHelper {
     if (wx.cloud) {
       try {
         wx.cloud.init({
-          env: wx.cloud.DYNAMIC_CURRENT_ENV,
+          env: CLOUD_ENV_ID || wx.cloud.DYNAMIC_CURRENT_ENV,
           traceUser: true
         });
         this.db = wx.cloud.database();
@@ -278,6 +281,31 @@ class CloudHelper {
         return this.watchListener;
       } catch (err) {
         console.warn("开启云端监听失败:", err);
+      }
+    }
+    return null;
+  }
+
+  // 监听所有订单变更（用于臭乐乐端实时同步做菜进度条）
+  watchAllOrders(onChangeCallback) {
+    if (this.isCloudEnabled && this.db) {
+      try {
+        return this.db.collection("orders")
+          .orderBy("createTime", "desc")
+          .limit(20)
+          .watch({
+            onChange: (snapshot) => {
+              if (snapshot.docs && snapshot.docs.length > 0) {
+                const list = snapshot.docs.map(d => this.sanitizeDish(d));
+                onChangeCallback(list);
+              }
+            },
+            onError: (err) => {
+              console.warn("实时监听订单状态变更失败:", err);
+            }
+          });
+      } catch (err) {
+        console.warn("开启订单变更监听异常:", err);
       }
     }
     return null;
