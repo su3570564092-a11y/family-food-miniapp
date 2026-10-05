@@ -9,8 +9,8 @@ const ORDER_STATUS = {
   DONE: { key: "done", label: "已完成", badgeColor: "#9E9E9E", actionLabel: "" }
 };
 
-// 云开发环境 ID（如已在控制台开通，填入此处可确保多台真机100%精准连入同一个云数据库）
-const CLOUD_ENV_ID = ""; 
+// 云开发环境 ID（已绑定，确保多台真机100%精准连入同一个云数据库）
+const CLOUD_ENV_ID = "cloud1-d0gbhjsi1fa768d4a"; 
 
 class CloudHelper {
   constructor() {
