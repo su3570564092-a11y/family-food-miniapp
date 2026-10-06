@@ -203,7 +203,13 @@ class CloudHelper {
         const query = filterStatus ? { status: filterStatus } : {};
         const res = await this.db.collection("orders").where(query).orderBy("createTime", "desc").get();
         if (res.data) {
-          orders = res.data;
+          orders = res.data.map(item => ({
+            ...item,
+            id: item._id || item.id,
+            _id: item._id || item.id,
+            rawOrderId: item.id
+          }));
+          wx.setStorageSync("family_orders", orders);
         }
       } catch (err) {
         console.warn("云端读取订单失败，降级本地存储:", err);
@@ -220,41 +226,65 @@ class CloudHelper {
   }
 
   // 更新订单状态
-  async updateOrderStatus(orderId, nextStatus) {
-    const orders = wx.getStorageSync("family_orders") || [];
-    const target = orders.find(o => o.id === orderId);
-    if (!target) return null;
+  async updateOrderStatus(orderId, nextStatus, cloudDocId = null) {
+    const meta = ORDER_STATUS[nextStatus.toUpperCase()] || { label: nextStatus };
+    const timeStr = this.formatTime(new Date());
+    const docId = cloudDocId || orderId;
 
-    target.status = nextStatus;
-    const meta = ORDER_STATUS[nextStatus.toUpperCase()];
-    if (meta) {
+    // 1. 同步更新本地缓存
+    let orders = wx.getStorageSync("family_orders") || [];
+    let target = orders.find(o => o.id === orderId || o._id === orderId || o.id === docId || o._id === docId);
+    if (target) {
+      target.status = nextStatus;
       target.statusText = meta.label;
+      if (!target.timeline) target.timeline = [];
+      target.timeline.push({
+        status: nextStatus,
+        title: meta.label,
+        time: timeStr
+      });
+      wx.setStorageSync("family_orders", orders);
     }
-    if (!target.timeline) target.timeline = [];
-    target.timeline.push({
-      status: nextStatus,
-      title: meta ? meta.label : nextStatus,
-      time: this.formatTime(new Date())
-    });
 
-    wx.setStorageSync("family_orders", orders);
-
+    // 2. 同步更新云数据库
     if (this.isCloudEnabled && this.db) {
+      const updatePayload = {
+        status: nextStatus,
+        statusText: meta.label,
+        updateTime: Date.now()
+      };
+      if (target && target.timeline) {
+        updatePayload.timeline = target.timeline;
+      }
+
+      let updatedSuccess = false;
+      // 优先通过 doc(docId) 更新
       try {
-        await this.db.collection("orders").doc(orderId).update({
-          data: {
-            status: nextStatus,
-            statusText: target.statusText,
-            timeline: target.timeline,
-            updateTime: Date.now()
-          }
+        const res = await this.db.collection("orders").doc(docId).update({
+          data: updatePayload
         });
-      } catch (err) {
-        console.warn("云端更新订单状态失败:", err);
+        if (res && res.stats && res.stats.updated > 0) {
+          updatedSuccess = true;
+          console.log("云端订单 doc(docId) 更新成功:", docId, nextStatus);
+        }
+      } catch (e) {
+        console.warn("云端 doc(docId) 更新尝试失败:", e);
+      }
+
+      // 如果 docId 更新未命中，尝试通过 id 字段更新
+      if (!updatedSuccess) {
+        try {
+          await this.db.collection("orders").where({ id: orderId }).update({
+            data: updatePayload
+          });
+          console.log("云端订单 where({ id }) 更新成功:", orderId, nextStatus);
+        } catch (e2) {
+          console.warn("云端 where({ id }) 更新也失败:", e2);
+        }
       }
     }
 
-    return target;
+    return target || { id: orderId, status: nextStatus, statusText: meta.label };
   }
 
   // 监听大厨端新订单

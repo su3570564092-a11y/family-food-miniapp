@@ -125,7 +125,8 @@
             <button 
               class="btn-primary btn-action" 
               bindtap="handleStatusAdvance" 
-              data-id="{{item.id}}" 
+              data-id="{{item._id || item.id}}" 
+              data-doc-id="{{item._id || item.id}}" 
               data-next="preparing"
             >
               👩‍🍳 收到臭乐乐点餐·开始备菜
@@ -136,7 +137,8 @@
             <button 
               class="btn-primary btn-action btn-cooking" 
               bindtap="handleStatusAdvance" 
-              data-id="{{item.id}}" 
+              data-id="{{item._id || item.id}}" 
+              data-doc-id="{{item._id || item.id}}" 
               data-next="cooking"
             >
               🔥 开始做菜
@@ -147,7 +149,8 @@
             <button 
               class="btn-primary btn-action btn-served" 
               bindtap="handleStatusAdvance" 
-              data-id="{{item.id}}" 
+              data-id="{{item._id || item.id}}" 
+              data-doc-id="{{item._id || item.id}}" 
               data-next="served"
             >
               🔔 做好端上桌·开饭啦！
@@ -158,7 +161,8 @@
             <button 
               class="btn-secondary btn-action" 
               bindtap="handleStatusAdvance" 
-              data-id="{{item.id}}" 
+              data-id="{{item._id || item.id}}" 
+              data-doc-id="{{item._id || item.id}}" 
               data-next="done"
             >
               💖 用餐圆满完成

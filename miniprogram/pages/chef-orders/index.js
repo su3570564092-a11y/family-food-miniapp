@@ -341,11 +341,28 @@ Page({
   },
 
   async handleStatusAdvance(e) {
-    const { id, next } = e.currentTarget.dataset;
+    const { id, next, docId } = e.currentTarget.dataset;
+    const targetDocId = docId || id;
     wx.showLoading({ title: "更新状态..." });
 
+    // 1. 本地界面即时乐观更新（按钮立即切换，无缝丝滑）
+    const orders = this.data.orders.map(o => {
+      if (o.id === id || o._id === id || o.id === targetDocId || o._id === targetDocId) {
+        return {
+          ...o,
+          status: next,
+          statusText: ORDER_STATUS[next.toUpperCase()] ? ORDER_STATUS[next.toUpperCase()].label : next
+        };
+      }
+      return o;
+    });
+    this.setData({ orders }, () => {
+      this.calculateCounts();
+      this.filterOrders();
+    });
+
     try {
-      await cloudHelper.updateOrderStatus(id, next);
+      await cloudHelper.updateOrderStatus(id, next, targetDocId);
       wx.hideLoading();
 
       if (next === "served") {
@@ -360,10 +377,14 @@ Page({
         wx.showToast({ title: "状态已更新", icon: "success" });
       }
 
-      this.loadOrders();
+      // 稍后自动拉取服务器最新数据保持校准
+      setTimeout(() => {
+        this.loadOrders();
+      }, 600);
     } catch (err) {
       wx.hideLoading();
       wx.showToast({ title: "更新失败", icon: "error" });
+      this.loadOrders();
     }
   }
 });
